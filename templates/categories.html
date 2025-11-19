@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Form Section -->
+        <div class="md:col-span-1">
+            {% if edit_cat %}
+            <!-- Edit Mode -->
+            <div class="bg-yellow-50 p-5 rounded shadow border border-yellow-400 border-t-4 sticky top-20">
+                <h3 class="font-bold text-lg text-yellow-800 mb-3">নাম সংশোধন করুন</h3>
+                <form action="/update_category/{{ edit_cat['id'] }}" method="POST" class="space-y-4">
+                    <div>
+                        <label class="text-xs font-bold text-gray-500">পুরাতন নাম: {{ edit_cat['name'] }}</label>
+                        <input type="text" name="name" value="{{ edit_cat['name'] }}" required class="w-full border rounded p-2 focus:border-yellow-500 outline-none">
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="submit" class="flex-1 bg-yellow-600 text-white py-2 rounded font-bold hover:bg-yellow-700">আপডেট</button>
+                        <a href="/categories" class="px-4 py-2 bg-gray-300 rounded text-gray-700">বাতিল</a>
+                    </div>
+                </form>
+            </div>
+            {% else %}
+            <!-- Add Mode -->
+            <div class="bg-white p-5 rounded shadow border-t-4 border-green-500 sticky top-20">
+                <h3 class="font-bold text-lg text-slate-700 mb-3">নতুন চালের নাম যুক্ত করুন</h3>
+                <form action="/add_category" method="POST" class="space-y-4">
+                    <input type="text" name="name" placeholder="যেমন: মিনিকেট, জিরা..." required class="w-full border rounded p-2 focus:border-green-500 outline-none">
+                    <button type="submit" class="w-full bg-green-600 text-white py-2 rounded font-bold hover:bg-green-700">সেভ করুন</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- List Section -->
+        <div class="md:col-span-2">
+            <div class="bg-white rounded shadow overflow-hidden">
+                <div class="bg-slate-50 px-5 py-3 border-b flex justify-between items-center">
+                    <h3 class="font-bold text-slate-700">বর্তমান চালের তালিকা</h3>
+                    <span class="bg-slate-200 text-slate-600 px-2 py-1 rounded text-xs">মোট: {{ categories|length }}</span>
+                </div>
+                <div class="overflow-y-auto max-h-[600px]">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 text-slate-600 sticky top-0">
+                            <tr>
+                                <th class="px-5 py-3">আইডি</th>
+                                <th class="px-5 py-3">নাম</th>
+                                <th class="px-5 py-3 text-center">অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            {% for c in categories %}
+                            <tr class="hover:bg-slate-50 group">
+                                <td class="px-5 py-3 text-gray-400">#{{ c['id'] }}</td>
+                                <td class="px-5 py-3 font-medium text-slate-700">{{ c['name'] }}</td>
+                                <td class="px-5 py-3 text-center">
+                                    <div class="flex justify-center gap-3 opacity-60 group-hover:opacity-100 transition">
+                                        <a href="/categories?edit_id={{ c['id'] }}" class="text-blue-600 hover:text-blue-800" title="এডিট">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                        <!-- Delete Button (Warning: Only delete if no sales exist) -->
+                                        <a href="/delete_category/{{ c['id'] }}" onclick="return confirm('সতর্কতা: এই চালের নামে যদি কোনো বিক্রির হিসাব থাকে তবে এটি ডিলিট হবে না। আপনি কি নিশ্চিত?');" class="text-red-500 hover:text-red-700" title="ডিলিট">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="px-5 py-8 text-center text-gray-400">কোনো ক্যাটাগরি নেই।</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+

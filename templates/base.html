@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Business Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Remove number input arrows */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+        /* Smooth transitions */
+        .nav-item { transition: all 0.3s ease; }
+
+        /* Floating Action Button Shadow */
+        .fab-shadow {
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+
+    <nav class="bg-indigo-950 text-white shadow-md sticky top-0 z-50 hidden md:block">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold flex items-center gap-2 tracking-tight">
+                <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center text-white">
+                    <i class="fa-solid fa-store text-sm"></i>
+                </div>
+                My Store
+            </a>
+
+            <div class="flex space-x-2">
+                <a href="/" class="px-4 py-2 rounded-lg font-medium hover:bg-indigo-800 transition {{ 'bg-indigo-800 text-white shadow-inner' if active_page == 'dashboard' else 'text-indigo-200 hover:text-white' }}">
+                    <i class="fa-solid fa-chart-pie mr-2"></i> Dashboard
+                </a>
+                <a href="/sales" class="px-4 py-2 rounded-lg font-medium hover:bg-indigo-800 transition {{ 'bg-indigo-800 text-white shadow-inner' if active_page == 'sales' else 'text-indigo-200 hover:text-white' }}">
+                    <i class="fa-solid fa-cart-plus mr-2"></i> Sales
+                </a>
+                <a href="/deposits" class="px-4 py-2 rounded-lg font-medium hover:bg-indigo-800 transition {{ 'bg-indigo-800 text-white shadow-inner' if active_page == 'deposits' else 'text-indigo-200 hover:text-white' }}">
+                    <i class="fa-solid fa-wallet mr-2"></i> Deposits
+                </a>
+                <a href="/ledger" class="px-4 py-2 rounded-lg font-medium hover:bg-indigo-800 transition {{ 'bg-indigo-800 text-white shadow-inner' if active_page == 'ledger' else 'text-indigo-200 hover:text-white' }}">
+                    <i class="fa-solid fa-book mr-2"></i> Ledger
+                </a>
+                <a href="/categories" class="px-4 py-2 rounded-lg font-medium hover:bg-indigo-800 transition {{ 'bg-indigo-800 text-white shadow-inner' if active_page == 'categories' else 'text-indigo-200 hover:text-white' }}">
+                    <i class="fa-solid fa-tags mr-2"></i> Categories
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="md:hidden bg-white shadow-sm sticky top-0 z-40 px-4 py-3 flex justify-between items-center">
+        <a href="/" class="text-lg font-bold text-indigo-900 flex items-center gap-2">
+            <i class="fa-solid fa-store text-indigo-600"></i> My Store
+        </a>
+        <button class="text-gray-500 hover:text-indigo-600">
+            <i class="fa-solid fa-bell"></i>
+        </button>
+    </div>
+
+    <div class="container mx-auto px-4 py-6 flex-grow mb-24 md:mb-0">
+        {% block content %}
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 text-center md:text-left">
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">Welcome Back!</h2>
+            <p class="text-gray-500">Select an option from the menu to get started.</p>
+        </div>
+        {% endblock %}
+    </div>
+
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-gray-200 z-50 pb-safe">
+        <div class="flex justify-between items-center h-16 px-2 relative">
+
+            <a href="/" class="nav-item flex-1 flex flex-col items-center justify-center h-full {{ 'text-indigo-600' if active_page == 'dashboard' else 'text-gray-400 hover:text-gray-600' }}">
+                <i class="fa-solid fa-house text-xl mb-1"></i>
+                <span class="text-[10px] font-medium">Home</span>
+            </a>
+
+            <a href="/ledger" class="nav-item flex-1 flex flex-col items-center justify-center h-full {{ 'text-indigo-600' if active_page == 'ledger' else 'text-gray-400 hover:text-gray-600' }}">
+                <i class="fa-solid fa-book-open text-xl mb-1"></i>
+                <span class="text-[10px] font-medium">Ledger</span>
+            </a>
+
+            <div class="relative -top-6">
+                <a href="/sales" class="flex items-center justify-center w-14 h-14 rounded-full bg-indigo-600 text-white fab-shadow transform transition hover:scale-105 active:scale-95 border-4 border-gray-100">
+                    <i class="fa-solid fa-plus text-2xl"></i>
+                </a>
+                <span class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-[10px] font-bold text-indigo-900">Sale</span>
+            </div>
+
+            <a href="/deposits" class="nav-item flex-1 flex flex-col items-center justify-center h-full {{ 'text-indigo-600' if active_page == 'deposits' else 'text-gray-400 hover:text-gray-600' }}">
+                <i class="fa-solid fa-wallet text-xl mb-1"></i>
+                <span class="text-[10px] font-medium">Deposit</span>
+            </a>
+
+            <a href="/categories" class="nav-item flex-1 flex flex-col items-center justify-center h-full {{ 'text-indigo-600' if active_page == 'categories' else 'text-gray-400 hover:text-gray-600' }}">
+                <i class="fa-solid fa-grid-2 text-xl mb-1"></i>
+                <span class="text-[10px] font-medium">Menu</span>
+            </a>
+
+        </div>
+    </div>
+
+</body>
+</html>

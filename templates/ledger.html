@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-4 bg-white p-4 rounded shadow sticky top-16 z-40">
+    <h1 class="text-xl font-bold">বাকি খাতা (১-৬০০)</h1>
+    <span id="ledger-total" class="text-red-600 font-bold text-xl">৳ {{ "{:,.2f}".format(ledger_total) }}</span>
+</div>
+
+<input type="text" id="search" onkeyup="filter()" placeholder="পৃষ্ঠা খুঁজুন..." class="w-full p-2 mb-4 border rounded shadow-sm focus:outline-none focus:border-blue-500">
+
+<div class="grid grid-cols-3 md:grid-cols-6 gap-2" id="grid">
+    {% for p in pages %}
+    <div class="card bg-white p-2 rounded border {{ 'border-red-500 bg-red-50' if p['amount']>0 else '' }}" data-p="{{ p['page_no'] }}">
+        <div class="flex justify-between text-xs mb-1"><span class="font-bold text-slate-500">P-{{ p['page_no'] }}</span></div>
+        <input type="number" value="{{ p['amount'] if p['amount']>0 else '' }}" placeholder="-" 
+               class="w-full text-right border rounded px-1 font-bold outline-none {{ 'text-red-600' if p['amount']>0 else 'text-gray-300' }}"
+               onchange="upd({{ p['page_no'] }}, this)">
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    function upd(pg, el) {
+        let val = parseFloat(el.value) || 0;
+        fetch('/api/ledger', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({p:pg, a:val})
+        }).then(r=>r.json()).then(d=>{
+            document.getElementById('ledger-total').innerText='৳ '+d.t.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            el.closest('.card').className = val>0 ? 'card bg-white p-2 rounded border border-red-500 bg-red-50' : 'card bg-white p-2 rounded border';
+            el.className = val>0 ? 'w-full text-right border rounded px-1 font-bold text-red-600 outline-none' : 'w-full text-right border rounded px-1 font-bold text-gray-300 outline-none';
+        });
+    }
+    function filter() {
+        let v = document.getElementById('search').value;
+        for(let c of document.getElementsByClassName('card')) c.style.display = c.getAttribute('data-p').includes(v)?'':'none';
+    }
+</script>
+{% endblock %}

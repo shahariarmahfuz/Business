@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto space-y-6">
+    
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded shadow border-l-4 border-green-500">
+            <p class="text-xs font-bold text-slate-500 uppercase">মোট বিক্রি</p>
+            <p class="text-2xl font-bold text-green-600">৳ {{ "{:,.0f}".format(sales) }}</p>
+        </div>
+        <div class="bg-white p-5 rounded shadow border-l-4 border-blue-500">
+            <p class="text-xs font-bold text-slate-500 uppercase">মোট জমা</p>
+            <p class="text-2xl font-bold text-blue-600">৳ {{ "{:,.0f}".format(deposit) }}</p>
+        </div>
+        <div class="bg-white p-5 rounded shadow border-l-4 border-red-500">
+            <p class="text-xs font-bold text-slate-500 uppercase">মার্কেটে বাকি</p>
+            <p class="text-2xl font-bold text-red-600">৳ {{ "{:,.0f}".format(due) }}</p>
+        </div>
+        <div class="bg-slate-800 p-5 rounded shadow border-l-4 border-yellow-400 text-white relative overflow-hidden">
+            <i class="fa-solid fa-scale-balanced absolute right-2 top-2 text-4xl opacity-10"></i>
+            <p class="text-xs font-bold text-gray-400 uppercase">হিসাব স্থিতি (Balance)</p>
+            <p class="text-2xl font-bold {{ 'text-green-400' if balance >= 0 else 'text-red-400' }}">৳ {{ "{:,.2f}".format(balance) }}</p>
+        </div>
+    </div>
+
+    <!-- Summary Table -->
+    <div class="bg-white rounded shadow overflow-hidden">
+        <div class="bg-slate-50 px-6 py-3 border-b"><h3 class="font-bold text-slate-700">কোন চাল কত বিক্রি?</h3></div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-100 uppercase">
+                    <tr>
+                        <th class="px-6 py-3">নাম</th>
+                        <th class="px-6 py-3 text-center">পরিমাণ</th>
+                        <th class="px-6 py-3 text-right">টাকা</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+                    {% for item in cat_stats %}
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-3 font-medium">{{ item['name'] }}</td>
+                        <td class="px-6 py-3 text-center">{{ item['total_qty'] }}</td>
+                        <td class="px-6 py-3 text-right font-bold">৳ {{ "{:,.2f}".format(item['total_money']) }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3" class="p-6 text-center text-gray-400">তথ্য নেই</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
