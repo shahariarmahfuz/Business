@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ব্যবসায়িক ম্যানেজার</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="text-xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-store"></i> আমার দোকান
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-1">
+                <a href="/" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'dashboard' else '' }}">
+                    <i class="fa-solid fa-chart-pie"></i> ড্যাশবোর্ড
+                </a>
+                <a href="/sales" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'sales' else '' }}">
+                    <i class="fa-solid fa-cart-plus"></i> বিক্রি
+                </a>
+                <a href="/deposits" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'deposits' else '' }}">
+                    <i class="fa-solid fa-money-bill-trend-up"></i> জমা
+                </a>
+                <a href="/ledger" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'ledger' else '' }}">
+                    <i class="fa-solid fa-book"></i> খাতা
+                </a>
+                <a href="/activity" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'activity' else '' }}">
+                    <i class="fa-solid fa-clock-rotate-left"></i> আপডেট
+                </a>
+                <a href="/categories" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'categories' else '' }}">
+                    <i class="fa-solid fa-tags"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6 flex-grow mb-16 md:mb-0 pb-20 md:pb-0">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-slate-900 border-t border-slate-800 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <div class="flex justify-around items-center h-16">
+            <a href="/" class="flex flex-col items-center justify-center w-full h-full {{ 'text-yellow-400 bg-slate-800' if active_page == 'dashboard' else 'text-slate-400' }}">
+                <i class="fa-solid fa-house text-lg mb-1"></i> <span class="text-[10px]">হোম</span>
+            </a>
+            <a href="/sales" class="flex flex-col items-center justify-center w-full h-full {{ 'text-yellow-400 bg-slate-800' if active_page == 'sales' else 'text-slate-400' }}">
+                <i class="fa-solid fa-cart-plus text-lg mb-1"></i> <span class="text-[10px]">বিক্রি</span>
+            </a>
+            <a href="/deposits" class="flex flex-col items-center justify-center w-full h-full {{ 'text-yellow-400 bg-slate-800' if active_page == 'deposits' else 'text-slate-400' }}">
+                <i class="fa-solid fa-hand-holding-dollar text-lg mb-1"></i> <span class="text-[10px]">জমা</span>
+            </a>
+            <a href="/ledger" class="flex flex-col items-center justify-center w-full h-full {{ 'text-yellow-400 bg-slate-800' if active_page == 'ledger' else 'text-slate-400' }}">
+                <i class="fa-solid fa-book-open text-lg mb-1"></i> <span class="text-[10px]">খাতা</span>
+            </a>
+            <a href="/activity" class="flex flex-col items-center justify-center w-full h-full {{ 'text-yellow-400 bg-slate-800' if active_page == 'activity' else 'text-slate-400' }}">
+                <i class="fa-solid fa-clock-rotate-left text-lg mb-1"></i> <span class="text-[10px]">আপডেট</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
+
+
