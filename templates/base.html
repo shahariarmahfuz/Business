@@ -1,80 +1,128 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ব্যবসায়িক ম্যানেজার</title>
+    <title>Business Manager</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#4F46E5', // Indigo-600
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: 'Hind Siliguri', sans-serif; }
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Hide scrollbar for Chrome, Safari and Opera */
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* Hide scrollbar for IE, Edge and Firefox */
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Remove spin buttons from number inputs */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-    <!-- Navbar -->
-    <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="text-xl font-bold flex items-center gap-2">
-                <i class="fa-solid fa-store"></i> আমার দোকান
+    <nav class="bg-white text-gray-800 shadow-sm sticky top-0 z-50 border-b border-gray-200">
+        <div class="container mx-auto px-4 h-16 flex justify-between items-center">
+            <a href="/" class="text-xl font-bold flex items-center gap-3 hover:text-primary transition-colors duration-300">
+                <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-store text-sm text-white"></i>
+                </div>
+                <span>My Store</span>
             </a>
             
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex space-x-1">
-                <a href="/" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'dashboard' else '' }}">
-                    <i class="fa-solid fa-chart-pie"></i> ড্যাশবোর্ড
+            <div class="hidden md:flex items-center space-x-1">
+                <a href="/" class="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 {{ 'bg-primary text-white shadow-md' if active_page == 'dashboard' else 'text-gray-600 hover:bg-gray-100 hover:text-gray-800' }}">
+                    <i class="fa-solid fa-chart-pie"></i> Dashboard
                 </a>
-                <a href="/sales" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'sales' else '' }}">
-                    <i class="fa-solid fa-cart-plus"></i> বিক্রি
+                <a href="/sales" class="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 {{ 'bg-primary text-white shadow-md' if active_page == 'sales' else 'text-gray-600 hover:bg-gray-100 hover:text-gray-800' }}">
+                    <i class="fa-solid fa-cart-plus"></i> Sales
                 </a>
-                <a href="/deposits" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'deposits' else '' }}">
-                    <i class="fa-solid fa-money-bill-trend-up"></i> জমা
+                <a href="/deposits" class="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 {{ 'bg-primary text-white shadow-md' if active_page == 'deposits' else 'text-gray-600 hover:bg-gray-100 hover:text-gray-800' }}">
+                    <i class="fa-solid fa-money-bill-trend-up"></i> Deposits
                 </a>
-                <a href="/ledger" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'ledger' else '' }}">
-                    <i class="fa-solid fa-book"></i> খাতা
+                <a href="/ledger" class="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 {{ 'bg-primary text-white shadow-md' if active_page == 'ledger' else 'text-gray-600 hover:bg-gray-100 hover:text-gray-800' }}">
+                    <i class="fa-solid fa-book"></i> Ledger
                 </a>
-                <a href="/activity" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'activity' else '' }}">
-                    <i class="fa-solid fa-clock-rotate-left"></i> আপডেট
+                <a href="/activity" class="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 {{ 'bg-primary text-white shadow-md' if active_page == 'activity' else 'text-gray-600 hover:bg-gray-100 hover:text-gray-800' }}">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Activity
                 </a>
-                <a href="/categories" class="px-3 py-2 rounded hover:bg-slate-800 {{ 'bg-slate-700 text-yellow-400' if active_page == 'categories' else '' }}">
+                <a href="/categories" class="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 {{ 'bg-primary text-white shadow-md' if active_page == 'categories' else 'text-gray-600 hover:bg-gray-100 hover:text-gray-800' }}">
                     <i class="fa-solid fa-tags"></i>
                 </a>
+            </div>
+
+            <div class="hidden md:block">
+                <button class="w-8 h-8 rounded-full bg-gray-200 hover:bg-primary hover:text-white flex items-center justify-center transition-colors text-xs text-gray-600">
+                    <i class="fa-solid fa-user"></i>
+                </button>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-6 flex-grow mb-16 md:mb-0 pb-20 md:pb-0">
+    <main class="container mx-auto px-4 py-6 flex-grow pb-24 md:pb-8">
         {% block content %}{% endblock %}
-    </div>
+    </main>
 
-    <!-- Mobile Bottom Navigation -->
-    <div class="md:hidden fixed bottom-0 left-0 w-full bg-slate-900 border-t border-slate-800 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-        <div class="flex justify-around items-center h-16">
-            <a href="/" class="flex flex-col items-center justify-center w-full h-full {{ 'text-yellow-400 bg-slate-800' if active_page == 'dashboard' else 'text-slate-400' }}">
-                <i class="fa-solid fa-house text-lg mb-1"></i> <span class="text-[10px]">হোম</span>
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+        <div class="grid grid-cols-5 h-16 px-1">
+            
+            <a href="/" class="flex flex-col items-center justify-center w-full h-full group transition-colors {{ 'text-primary' if active_page == 'dashboard' else 'text-gray-500 hover:text-gray-700' }}">
+                <div class="mb-1 p-1 rounded-xl {{ 'bg-indigo-50' if active_page == 'dashboard' else '' }}">
+                    <i class="fa-solid fa-house text-lg group-active:scale-90 transition-transform"></i>
+                </div>
+                <span class="text-[10px] font-medium">Home</span>
             </a>
-            <a href="/sales" class="flex flex-col items-center justify-center w-full h-full {{ 'text-yellow-400 bg-slate-800' if active_page == 'sales' else 'text-slate-400' }}">
-                <i class="fa-solid fa-cart-plus text-lg mb-1"></i> <span class="text-[10px]">বিক্রি</span>
+
+            <a href="/sales" class="flex flex-col items-center justify-center w-full h-full group transition-colors {{ 'text-primary' if active_page == 'sales' else 'text-gray-500 hover:text-gray-700' }}">
+                <div class="mb-1 p-1 rounded-xl {{ 'bg-indigo-50' if active_page == 'sales' else '' }}">
+                    <i class="fa-solid fa-cart-plus text-lg group-active:scale-90 transition-transform"></i>
+                </div>
+                <span class="text-[10px] font-medium">Sales</span>
             </a>
-            <a href="/deposits" class="flex flex-col items-center justify-center w-full h-full {{ 'text-yellow-400 bg-slate-800' if active_page == 'deposits' else 'text-slate-400' }}">
-                <i class="fa-solid fa-hand-holding-dollar text-lg mb-1"></i> <span class="text-[10px]">জমা</span>
+
+            <a href="/deposits" class="relative flex flex-col items-center justify-center w-full h-full group {{ 'text-primary' if active_page == 'deposits' else 'text-gray-500 hover:text-gray-700' }}">
+                <div class="absolute -top-5 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-primary/30 border-4 border-white">
+                    <i class="fa-solid fa-plus text-xl"></i>
+                </div>
+                <span class="text-[10px] font-medium mt-7">Deposit</span>
             </a>
-            <a href="/ledger" class="flex flex-col items-center justify-center w-full h-full {{ 'text-yellow-400 bg-slate-800' if active_page == 'ledger' else 'text-slate-400' }}">
-                <i class="fa-solid fa-book-open text-lg mb-1"></i> <span class="text-[10px]">খাতা</span>
+
+            <a href="/ledger" class="flex flex-col items-center justify-center w-full h-full group transition-colors {{ 'text-primary' if active_page == 'ledger' else 'text-gray-500 hover:text-gray-700' }}">
+                <div class="mb-1 p-1 rounded-xl {{ 'bg-indigo-50' if active_page == 'ledger' else '' }}">
+                    <i class="fa-solid fa-book-open text-lg group-active:scale-90 transition-transform"></i>
+                </div>
+                <span class="text-[10px] font-medium">Ledger</span>
             </a>
-            <a href="/activity" class="flex flex-col items-center justify-center w-full h-full {{ 'text-yellow-400 bg-slate-800' if active_page == 'activity' else 'text-slate-400' }}">
-                <i class="fa-solid fa-clock-rotate-left text-lg mb-1"></i> <span class="text-[10px]">আপডেট</span>
+
+            <a href="/activity" class="flex flex-col items-center justify-center w-full h-full group transition-colors {{ 'text-primary' if active_page == 'activity' else 'text-gray-500 hover:text-gray-700' }}">
+                <div class="mb-1 p-1 rounded-xl {{ 'bg-indigo-50' if active_page == 'activity' else '' }}">
+                    <i class="fa-solid fa-clock-rotate-left text-lg group-active:scale-90 transition-transform"></i>
+                </div>
+                <span class="text-[10px] font-medium">Updates</span>
             </a>
+
         </div>
     </div>
 
 </body>
 </html>
-
-
